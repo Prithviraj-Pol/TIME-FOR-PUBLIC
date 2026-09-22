@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TIME FOR PUBLIC</string>
+    <string name="tagline">Bridging Citizens &amp; Public Administration</string>
+    <string name="welcome_citizen">Welcome, Citizen</string>
+    <string name="welcome_officer">Officer Portal</string>
+    <string name="search_hint">Search schemes, services, offices...</string>
+    <string name="status_available">Available in Office</string>
+    <string name="status_busy">In Meeting</string>
+    <string name="status_field">On Field Duty</string>
+    <string name="status_leave">On Leave</string>
+</resources>
