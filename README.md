@@ -13,7 +13,7 @@
 - **📍 Real-Time Office & Officer Availability**: Geofenced availability status so citizens know if officers are present in office, in meetings, or on field duty.
 - **💡 Government Schemes Hub**: Discover central and state government welfare schemes with direct links to official application portals.
 - **🤖 AI Public Assistant**: Natural language civic query answering, scheme recommendations, and eligibility checks.
-- **🛡️ Dual-Role Experience**: Role-based interface for **Citizens** (guidance & tracking) and **Officers** (status toggling & queue management).
+- **🛡️ Dual-Role Experience**: Role-based interface for **Citizens** (guidance & tracking) and **OFFICER** (status toggling & queue management).
 
 ---
 
