@@ -11,10 +11,12 @@ import com.timeforpublic.domain.repository.AuthRepository
 import com.timeforpublic.domain.repository.OfficeRepository
 import com.timeforpublic.domain.repository.OfficerRepository
 import com.timeforpublic.domain.repository.SchemeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class HomeUiState(
     val user: User? = null,
@@ -25,7 +27,8 @@ data class HomeUiState(
     val searchQuery: String = ""
 )
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val officerRepository: OfficerRepository,
     private val schemeRepository: SchemeRepository,

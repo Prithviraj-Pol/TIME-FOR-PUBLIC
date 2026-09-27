@@ -6,10 +6,12 @@ import com.timeforpublic.core.common.Result
 import com.timeforpublic.domain.model.User
 import com.timeforpublic.domain.model.UserRole
 import com.timeforpublic.domain.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 sealed class AuthUiState {
     object Idle : AuthUiState()
@@ -18,7 +20,8 @@ sealed class AuthUiState {
     data class Error(val message: String) : AuthUiState()
 }
 
-class AuthViewModel(
+@HiltViewModel
+class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -41,7 +44,7 @@ class AuthViewModel(
             _uiState.value = AuthUiState.Loading
             when (val result = authRepository.login(phone, _selectedRole.value)) {
                 is Result.Success -> _uiState.value = AuthUiState.Success(result.data)
-                is Result.Error -> _uiState.value = AuthUiState.Error(result.message)
+                is Result.Error -> _uiState.value = AuthUiState.Error(result.error.message)
                 else -> {}
             }
         }

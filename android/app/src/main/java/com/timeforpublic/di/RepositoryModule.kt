@@ -1,60 +1,84 @@
 package com.timeforpublic.di
 
-import android.content.Context
+import com.timeforpublic.data.repository.AiAssistantRepositoryImpl
 import com.timeforpublic.data.repository.AuthRepositoryImpl
 import com.timeforpublic.data.repository.DocumentRepositoryImpl
 import com.timeforpublic.data.repository.OfficeRepositoryImpl
 import com.timeforpublic.data.repository.OfficerRepositoryImpl
+import com.timeforpublic.data.repository.SavedServicesRepositoryImpl
 import com.timeforpublic.data.repository.SchemeRepositoryImpl
+import com.timeforpublic.data.repository.ServiceRepositoryImpl
+import com.timeforpublic.data.repository.UserPreferencesRepositoryImpl
+import com.timeforpublic.domain.repository.AiAssistantRepository
 import com.timeforpublic.domain.repository.AuthRepository
 import com.timeforpublic.domain.repository.DocumentRepository
 import com.timeforpublic.domain.repository.OfficeRepository
 import com.timeforpublic.domain.repository.OfficerRepository
+import com.timeforpublic.domain.repository.SavedServicesRepository
 import com.timeforpublic.domain.repository.SchemeRepository
+import com.timeforpublic.domain.repository.ServiceRepository
+import com.timeforpublic.domain.repository.UserPreferencesRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-object RepositoryModule {
-    @Volatile
-    private var authRepo: AuthRepository? = null
-    @Volatile
-    private var schemeRepo: SchemeRepository? = null
-    @Volatile
-    private var officeRepo: OfficeRepository? = null
-    @Volatile
-    private var officerRepo: OfficerRepository? = null
-    @Volatile
-    private var documentRepo: DocumentRepository? = null
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
 
-    fun provideAuthRepository(context: Context): AuthRepository {
-        return authRepo ?: synchronized(this) {
-            authRepo ?: AuthRepositoryImpl(
-                NetworkModule.apiService,
-                DatabaseModule.provideSecureStorage(context.applicationContext),
-                DatabaseModule.provideTokenManager(context.applicationContext)
-            ).also { authRepo = it }
-        }
-    }
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        impl: AuthRepositoryImpl
+    ): AuthRepository
 
-    fun provideSchemeRepository(): SchemeRepository {
-        return schemeRepo ?: synchronized(this) {
-            schemeRepo ?: SchemeRepositoryImpl(NetworkModule.apiService).also { schemeRepo = it }
-        }
-    }
+    @Binds
+    @Singleton
+    abstract fun bindServiceRepository(
+        impl: ServiceRepositoryImpl
+    ): ServiceRepository
 
-    fun provideOfficeRepository(): OfficeRepository {
-        return officeRepo ?: synchronized(this) {
-            officeRepo ?: OfficeRepositoryImpl(NetworkModule.apiService).also { officeRepo = it }
-        }
-    }
+    @Binds
+    @Singleton
+    abstract fun bindSchemeRepository(
+        impl: SchemeRepositoryImpl
+    ): SchemeRepository
 
-    fun provideOfficerRepository(): OfficerRepository {
-        return officerRepo ?: synchronized(this) {
-            officerRepo ?: OfficerRepositoryImpl(NetworkModule.apiService).also { officerRepo = it }
-        }
-    }
+    @Binds
+    @Singleton
+    abstract fun bindOfficeRepository(
+        impl: OfficeRepositoryImpl
+    ): OfficeRepository
 
-    fun provideDocumentRepository(): DocumentRepository {
-        return documentRepo ?: synchronized(this) {
-            documentRepo ?: DocumentRepositoryImpl(NetworkModule.apiService).also { documentRepo = it }
-        }
-    }
+    @Binds
+    @Singleton
+    abstract fun bindOfficerRepository(
+        impl: OfficerRepositoryImpl
+    ): OfficerRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDocumentRepository(
+        impl: DocumentRepositoryImpl
+    ): DocumentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAiAssistantRepository(
+        impl: AiAssistantRepositoryImpl
+    ): AiAssistantRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindSavedServicesRepository(
+        impl: SavedServicesRepositoryImpl
+    ): SavedServicesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUserPreferencesRepository(
+        impl: UserPreferencesRepositoryImpl
+    ): UserPreferencesRepository
 }

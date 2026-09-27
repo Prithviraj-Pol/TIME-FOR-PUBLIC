@@ -23,5 +23,6 @@ data class AiGuidanceResponse(
 data class OfficialSourceMetadata(
     val title: String,
     val department: String,
-    val referenceUrl: String = ""
+    val gazetteRefOrUrl: String = "",
+    val referenceUrl: String = gazetteRefOrUrl
 )

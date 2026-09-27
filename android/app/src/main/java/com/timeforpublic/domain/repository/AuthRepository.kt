@@ -10,4 +10,5 @@ interface AuthRepository {
     suspend fun login(phone: String, role: UserRole): Result<User>
     suspend fun logout(): Result<Unit>
     suspend fun getCurrentUser(): User?
+    fun getAuthToken(): String?
 }

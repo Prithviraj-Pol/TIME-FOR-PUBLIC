@@ -14,28 +14,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timeforpublic.domain.model.AvailabilityStatus
-import com.timeforpublic.ui.theme.StatusAvailableColor
-import com.timeforpublic.ui.theme.StatusBusyColor
-import com.timeforpublic.ui.theme.StatusFieldDutyColor
-import com.timeforpublic.ui.theme.StatusLeaveColor
-import com.timeforpublic.ui.theme.StatusOfflineColor
+import com.timeforpublic.ui.theme.StatusFieldVisitColor
+import com.timeforpublic.ui.theme.StatusInMeetingColor
+import com.timeforpublic.ui.theme.StatusInOfficeColor
+import com.timeforpublic.ui.theme.StatusOnLeaveColor
+import com.timeforpublic.ui.theme.StatusOutOfOfficeColor
+import com.timeforpublic.ui.theme.StatusTrainingColor
+import com.timeforpublic.ui.theme.StatusUnknownColor
 
+/**
+ * Renders one of the 7 mandated officer availability states
+ * with consistent color-coding and high-contrast typography.
+ */
 @Composable
 fun StatusBadge(
     status: AvailabilityStatus,
     modifier: Modifier = Modifier
 ) {
     val (statusColor, statusLabel) = when (status) {
-        AvailabilityStatus.AVAILABLE -> StatusAvailableColor to "Available"
-        AvailabilityStatus.IN_MEETING -> StatusBusyColor to "In Meeting"
-        AvailabilityStatus.ON_FIELD_DUTY -> StatusFieldDutyColor to "Field Duty"
-        AvailabilityStatus.ON_LEAVE -> StatusLeaveColor to "On Leave"
-        AvailabilityStatus.OFFLINE -> StatusOfflineColor to "Offline"
+        AvailabilityStatus.IN_OFFICE -> StatusInOfficeColor to "In Office"
+        AvailabilityStatus.OUT_OF_OFFICE -> StatusOutOfOfficeColor to "Out of Office"
+        AvailabilityStatus.IN_MEETING -> StatusInMeetingColor to "In Meeting"
+        AvailabilityStatus.FIELD_VISIT -> StatusFieldVisitColor to "Field Visit"
+        AvailabilityStatus.TRAINING -> StatusTrainingColor to "In Training"
+        AvailabilityStatus.ON_LEAVE -> StatusOnLeaveColor to "On Leave"
+        AvailabilityStatus.UNKNOWN -> StatusUnknownColor to "Unknown"
     }
 
     Row(

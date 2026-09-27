@@ -30,9 +30,18 @@ val DarkSurfaceVariant = Color(0xFF3A506B)
 val DarkTextPrimary = Color(0xFFF8FAFC)
 val DarkTextSecondary = Color(0xFFCBD5E1)
 
-// Status Colors
-val StatusAvailableColor = Color(0xFF10B981)
-val StatusBusyColor = Color(0xFFF59E0B)
-val StatusFieldDutyColor = Color(0xFF3B82F6)
-val StatusLeaveColor = Color(0xFFEF4444)
-val StatusOfflineColor = Color(0xFF6B7280)
+// Mandated 7 Availability Status Colors
+val StatusInOfficeColor = Color(0xFF10B981)      // Green (Present / Verified in office)
+val StatusOutOfOfficeColor = Color(0xFF6B7280)   // Slate Gray
+val StatusInMeetingColor = Color(0xFFF59E0B)     // Amber
+val StatusFieldVisitColor = Color(0xFF3B82F6)    // Blue
+val StatusTrainingColor = Color(0xFF8B5CF6)      // Violet
+val StatusOnLeaveColor = Color(0xFFEF4444)       // Red
+val StatusUnknownColor = Color(0xFF94A3B8)       // Muted Gray
+
+// Legacy compatibility aliases
+val StatusAvailableColor = StatusInOfficeColor
+val StatusBusyColor = StatusInMeetingColor
+val StatusFieldDutyColor = StatusFieldVisitColor
+val StatusLeaveColor = StatusOnLeaveColor
+val StatusOfflineColor = StatusOutOfOfficeColor

@@ -13,6 +13,7 @@ data class DocumentItem(
     val isMandatory: Boolean = true,
     val acceptedFormats: List<String> = listOf("Original", "Self-Attested Photocopy", "DigiLocker"),
     val description: String = "",
+    val guidanceNotes: String = "",
     val validityPeriod: String = "Permanent",
     val estimatedDaysToObtain: Int = 3
 )

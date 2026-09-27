@@ -1,11 +1,25 @@
 package com.timeforpublic.di
 
-import android.content.Context
+import com.timeforpublic.core.common.DefaultDispatcherProvider
+import com.timeforpublic.core.common.DispatcherProvider
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import javax.inject.Singleton
 
-class AppModule(val context: Context) {
-    val authRepository = RepositoryModule.provideAuthRepository(context)
-    val schemeRepository = RepositoryModule.provideSchemeRepository()
-    val officeRepository = RepositoryModule.provideOfficeRepository()
-    val officerRepository = RepositoryModule.provideOfficerRepository()
-    val documentRepository = RepositoryModule.provideDocumentRepository()
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
+
+    @Provides
+    @Singleton
+    fun provideApplicationScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 }
