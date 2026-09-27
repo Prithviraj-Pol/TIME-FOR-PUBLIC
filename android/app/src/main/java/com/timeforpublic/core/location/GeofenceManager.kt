@@ -8,12 +8,15 @@ import android.os.Build
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.tasks.Task
 import com.timeforpublic.core.common.AppError
 import com.timeforpublic.core.common.Constants
 import com.timeforpublic.core.common.Result
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -53,7 +56,7 @@ class GeofenceManager @Inject constructor(
                 .build()
 
             val pendingIntent = getGeofencePendingIntent(context)
-            geofencingClient.addGeofences(request, pendingIntent).await()
+            geofencingClient.addGeofences(request, pendingIntent).awaitTask()
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(AppError.Unknown(e.message ?: "Failed to register geofence", e))
@@ -63,7 +66,7 @@ class GeofenceManager @Inject constructor(
     suspend fun removeGeofence(context: Context): Result<Unit> {
         return try {
             val pendingIntent = getGeofencePendingIntent(context)
-            geofencingClient.removeGeofences(pendingIntent).await()
+            geofencingClient.removeGeofences(pendingIntent).awaitTask()
             Result.Success(Unit)
         } catch (e: Exception) {
             Result.Error(AppError.Unknown(e.message ?: "Failed to remove geofence", e))
@@ -118,3 +121,10 @@ class GeofenceManager @Inject constructor(
         }
     }
 }
+
+private suspend fun <T> Task<T>.awaitTask(): T =
+    suspendCancellableCoroutine { continuation ->
+        addOnSuccessListener { continuation.resume(it) }
+        addOnFailureListener { continuation.resumeWithException(it) }
+        addOnCanceledListener { continuation.cancel() }
+    }
