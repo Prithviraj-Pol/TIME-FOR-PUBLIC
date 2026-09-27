@@ -44,7 +44,7 @@ import kotlinx.coroutines.delay
 fun SplashScreen(
     onNavigateNext: () -> Unit
 ) {
-    var startAnimation by remember { mutableStateOf(false) }
+    var startAnimation by remember { mutableStateOf(true) }
     val scaleAnim by animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0.6f,
         animationSpec = tween(durationMillis = 900, easing = FastOutSlowInEasing),
@@ -57,8 +57,7 @@ fun SplashScreen(
     )
 
     LaunchedEffect(key1 = true) {
-        startAnimation = true
-        delay(1800)
+        delay(3000)
         onNavigateNext()
     }
 

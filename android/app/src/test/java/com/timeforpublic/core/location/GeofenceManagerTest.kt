@@ -1,3 +1,4 @@
+
 package com.timeforpublic.core.location
 
 import org.junit.Assert.assertFalse

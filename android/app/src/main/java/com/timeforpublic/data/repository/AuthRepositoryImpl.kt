@@ -39,22 +39,25 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             // Attempt API authentication first
             try {
-                val response = apiService.login(LoginRequest(phone = phone, role = role.name))
-                if (response.isSuccessful && response.body() != null) {
-                    val loginRes = response.body()!!
-                    secureStorage.saveUserSession(
-                        userId = loginRes.user.id,
-                        phone = loginRes.user.phone,
-                        role = loginRes.user.role,
-                        officerId = loginRes.user.officeId
-                    )
-                    tokenManager.saveToken(loginRes.accessToken)
-                    if (loginRes.refreshToken != null) {
-                        tokenManager.saveRefreshToken(loginRes.refreshToken)
+                kotlinx.coroutines.withTimeoutOrNull(1500) {
+                    val response = apiService.login(LoginRequest(phone = phone, role = role.name))
+                    if (response.isSuccessful && response.body() != null) {
+                        val loginRes = response.body()!!
+                        secureStorage.saveUserSession(
+                            userId = loginRes.user.id,
+                            phone = loginRes.user.phone,
+                            role = loginRes.user.role,
+                            officerId = loginRes.user.officeId
+                        )
+                        tokenManager.saveToken(loginRes.accessToken)
+                        if (loginRes.refreshToken != null) {
+                            tokenManager.saveRefreshToken(loginRes.refreshToken)
+                        }
+                        _currentUser.value = loginRes.user
+                        return@withTimeoutOrNull Result.Success(loginRes.user)
                     }
-                    _currentUser.value = loginRes.user
-                    return Result.Success(loginRes.user)
-                }
+                    null
+                }?.let { return it }
             } catch (_: Exception) {
                 // If backend is offline during local test, use local secure session
             }
