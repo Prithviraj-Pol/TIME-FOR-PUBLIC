@@ -1,5 +1,13 @@
 package com.timeforpublic.domain.model
 
+import kotlinx.serialization.Serializable
+
+/**
+ * Government office or administrative building.
+ * Geofence radius defaults to 200 meters per architectural specification.
+ * Latitude/longitude used only for geofence registration — never exposed to citizens.
+ */
+@Serializable
 data class GovernmentOffice(
     val id: String,
     val name: String,
@@ -10,7 +18,7 @@ data class GovernmentOffice(
     val pinCode: String,
     val latitude: Double,
     val longitude: Double,
-    val workingHours: String,
-    val contactPhone: String,
-    val totalOfficersOnDuty: Int = 0
+    val geofenceRadiusMeters: Float = 200f,
+    val workingHours: String = "",
+    val contactPhone: String = ""
 )

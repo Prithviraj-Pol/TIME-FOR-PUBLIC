@@ -1,5 +1,11 @@
 package com.timeforpublic.domain.model
 
+import kotlinx.serialization.Serializable
+
+/**
+ * A single document required for a government service.
+ */
+@Serializable
 data class DocumentItem(
     val id: String,
     val name: String,
@@ -11,11 +17,16 @@ data class DocumentItem(
     val estimatedDaysToObtain: Int = 3
 )
 
+/**
+ * A checklist of documents required for a specific government service.
+ * Used to generate document preparation guidance for citizens.
+ */
+@Serializable
 data class ServiceChecklist(
     val serviceId: String,
     val serviceName: String,
     val department: String,
     val feeInr: Int = 0,
     val standardProcessingDays: Int = 15,
-    val documents: List<DocumentItem>
+    val documents: List<DocumentItem> = emptyList()
 )
